@@ -8,15 +8,27 @@ use App\Mail\TestMail;
 
 class MailController extends Controller
 {
-    public function sendMail()
+
+    public function index(){
+        return view('emails.users.mailsentForm');
+    }
+
+
+    public function send(Request $request)
     {
+        $request->validate([
+            'recipient' => 'required|email',
+            'subject'   => 'required|string|max:255',
+            'message'   => 'required|string',
+        ]);
+
         $details = [
-            'title' => 'Mail from Laravel',
-            'body' => 'This is a test email.'
+            'subject' => $request->subject,
+            'message' => $request->message,
         ];
 
-        Mail::to('recipient@example.com')->view('emails.user.mailsent');
+        Mail::to($request->recipient)->send(new TestMail($details));
 
-        return "Email sent successfully!";
+        return back()->with('success', 'Mail sent successfully to ' . $request->recipient);
     }
 }

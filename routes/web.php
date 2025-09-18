@@ -20,7 +20,9 @@ Route::get('/guest-follow-sms', [GuestFollowSmsController::class, 'showForm'])->
 Route::post('/guest-follow-sms', [GuestFollowSmsController::class, 'submitFollow'])->name('guest.follow.sms.submit');
 
 //mail
-Route::get('/send-mail', [MailController::class, 'sendMail']);
+Route::get('/send-mail', [MailController::class, 'index'])->name('mail.form');
+Route::post('/send-mail', [MailController::class, 'sendMail'])->name('send.mail');
+
 
 
 
